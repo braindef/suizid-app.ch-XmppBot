@@ -1,0 +1,3 @@
+[submodule "SleekXMPP"]
+	path = SleekXMPP
+	url = https://github.com/fritzy/SleekXMPP

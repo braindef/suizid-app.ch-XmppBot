@@ -1,0 +1,35 @@
+#!/usr/bin/python
+import MySQLdb
+
+def getSupporter(onlineUsers):
+    """Parameter onlineUsers must be a list"""
+    db = MySQLdb.connect(host="localhost", # your host, usually localhost
+                         user="polarbear", # your username
+                         passwd="polarbear", # your password
+                         db="spa") # name of the data base
+    cur = db.cursor()
+    
+    #concat list with online users to string with single quotes and comma separated
+    stringOnlineUsers = ', '.join(map(lambda x: "'" + x + "'", onlineUsers))
+
+    #and put list into the IN clause of the query
+    query = "SELECT jid FROM presence where jid IN ( %s ) order by daily_call_count;" % stringOnlineUsers
+    
+    cur.execute(query)
+    rows = cur.fetchall()
+    if len(rows) > 0:
+        supporter = rows[0][0]
+    else:
+        supporter = None
+    #add 1 to the daily_call_count of the selected user
+    query = "UPDATE presence SET daily_call_count = daily_call_count + 1 WHERE jid = '%s';" % supporter
+    cur.execute(query)
+    db.commit()
+    cur.close()
+    db.close()
+    return supporter
+
+
+if __name__ == "__main__" :
+    supporterList = ['supporter1@ns3.ignored.ch', 'supporter0@ns3.ignored.ch', 'supporter2@ns3.ignored.ch', 'supporter4@ns3.ignored.ch', 'supporter5@ns3.ignored.ch']    
+    print getSupporter(supporterList)
