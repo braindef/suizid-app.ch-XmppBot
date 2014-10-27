@@ -89,7 +89,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
             #database.incCallCount(str(msg['from']))
             #if database.getCallCount(str(msg['from'])) > 100 return
 
-            print str(msg['body'])
+            print str(msg['from']) + ": " + str(msg['body'])
 
             #request and create login
             if msg['body'] == "SuicidePreventionAppServerLoginRequest":
