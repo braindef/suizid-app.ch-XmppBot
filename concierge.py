@@ -109,13 +109,13 @@ class EchoBot(sleekxmpp.ClientXMPP):
                 onlineUsers.pop(onlineUsers.index( str(msg['from']).split("/")[0]))
                 supporter = database.getSupporter(onlineUsers)
                 print "Selected Supporter " + supporter + " for " + str(msg['from'])
-                self.send_message(mto=supporter, mbody="SuicidePreventionAppServerSupporterRequestCalling;%s" % str(msg['from']))
+                self.send_message(mto=supporter, mbody="SuicidePreventionAppServerSupporterRequestCalling;%s" % str(msg['from']), mtype='chat')
 
             #give supporter data to help seeker
             answerMessage = msg['body']
             if answerMessage.startswith("SuicidePreventionAppServerSupporterRequestCallingAccept;"):    #;seeker;supporter
                 answerList=answerMessage.split(';')
-                print "to : "+answerList[1].split('/')[0] + " SuicidePreventionAppServerSupporterRequestCallingAccept" + str(msg['from'])
+                print "to : "+answerList[1].split('/')[0] + " SuicidePreventionAppServerSupporterRequestCallingAccept" + str(msg['from'], mtype='chat')
                 #self.send_message(mto=answerList[1], mbody="SuicidePreventionAppServerSupporterRequestCallingAccept;"+str(msg['from']))
                 self.send_message(mto=answerList[1], mbody="SuicidePreventionAppServerSupporterRequestCallingAccept;"+str(msg['from']), mtype='chat')
 
