@@ -1,4 +1,4 @@
-sudo apt-get install python-pip
+sudo apt-get install python-pip python-mysqldb
 sudo apt-get install python-setuptools
 sudo python -m easy_install pip
 
