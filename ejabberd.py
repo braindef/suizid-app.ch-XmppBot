@@ -2,11 +2,13 @@ import requests
 from requests.auth import HTTPBasicAuth
 from xml.dom.minidom import parse, parseString
 
-
+#depending on the ejabberd version you have to give the username with or without domain, the admin user is configured in the /etc/ejabberd/ejabberd.cfg file, you can test it with accessing the website manually
 user = "landev"
 password = "password"
 server = "ns3.ignored.ch"
 virtualhost = "ns3.ignored.ch"
+
+
 add_user_url = "http://%s:5280/admin/server/%s/users/" % (server, virtualhost)
 del_user_url = "http://%s:5280/admin/server/%s/user/" % (server, virtualhost)
 get_online_user_url = "http://%s:5280/admin/server/%s/online-users/" % (server, virtualhost)
@@ -21,6 +23,7 @@ def getOnlineUsers():
     dom = parseString(resp.text)
     onlineUsers = dom.childNodes[1].childNodes[1].childNodes[0].childNodes[2]
     usersCount = onlineUsers.childNodes.length
+    #in case the webinterface of ejabberd changes you have to make changes here
     for i in range(1,usersCount):
         if onlineUsers.childNodes[i].toxml() != "<br/>":
            user = onlineUsers.childNodes[i].firstChild.nodeValue
