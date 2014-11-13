@@ -45,7 +45,7 @@ case "$1" in
         #To run it as root:
         #/path/to/command/to/stop/new-service
         #Or to run it as some other user:
-        ps aux | grep concierge | grep -v "grep concierge" | awk '{print $2}' | xargs kill
+        ps aux | grep concierge | grep -v "grep concierge" | awk '{print $2}' | xargs kill -HUP
         echo "."
         ;;
 
