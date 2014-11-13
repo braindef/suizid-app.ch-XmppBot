@@ -5,7 +5,7 @@ from xml.dom.minidom import parse, parseString
 #depending on the ejabberd version you have to give the username with or without domain, the admin user is configured in the /etc/ejabberd/ejabberd.cfg file, you can test it with accessing the website manually
 user = "landev@suizid-app.ch"
 password = "password12345678"
-server = "suizid-app.ch"
+server = "www.suizid-app.ch"
 virtualhost = "suizid-app.ch"
 
 
