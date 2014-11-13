@@ -19,7 +19,7 @@ import sleekxmpp
 import ejabberd
 import time
 import database
-
+from datetime import datetime
 
 
 
@@ -89,10 +89,11 @@ class EchoBot(sleekxmpp.ClientXMPP):
             #database.incCallCount(str(msg['from']))
             #if database.getCallCount(str(msg['from'])) > 100 return
 
-            logging.info( str(msg['from']) + ": " + str(msg['body']))
+            logging.info( datetime.now().strftime('%H_%M_%s_%d_%m_%Y') + str(msg['from']) + ": " + str(msg['body']))
 
             #request and create login
             if msg['body'] == "SuicidePreventionAppServerLoginRequest":
+		logging.info( datetime.now().strftime('%H_%M_%s_%d_%m_%Y') + "SuicidePreventionAppServerLoginRequest")
                 timestamp = time.time()
                 ejabberd.createUser(timestamp,timestamp)
                 print "created user " + str(timestamp) + " requested from " + str(msg['from'])
@@ -100,7 +101,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
 
             #request and create login
             if msg['body'] == "SuicidePreventionAppServerSupporterLoggedIn":
-                logging.info("sending SuicidePreventionAppServerSupporterLoggedInAck to %s" % str(msg['from']))
+                logging.info( datetime.now().strftime('%H_%M_%s_%d_%m_%Y') + "sending SuicidePreventionAppServerSupporterLoggedInAck to %s" % str(msg['from']))
                 msg.reply("SuicidePreventionAppServerSupporterLoggedInAck").send()
 
             #request supporter from help seeker
@@ -115,13 +116,13 @@ class EchoBot(sleekxmpp.ClientXMPP):
             #give supporter data to help seeker
             answerMessage = msg['body']
             if answerMessage.startswith("SuicidePreventionAppServerSupporterRequestCallingAccept;"):    #;seeker;supporter
-                logging.info('SuicidePreventionAppServerSupporterRequestCallingAccept;' + str(msg['from']))
+                logging.info( datetime.now().strftime('%H_%M_%s_%d_%m_%Y') + 'SuicidePreventionAppServerSupporterRequestCallingAccept;' + str(msg['from']))
                 answerList=answerMessage.split(';')
                 self.send_message(mto=answerList[1], mbody="SuicidePreventionAppServerSupporterRequestCallingAccept;"+str(msg['from']), mtype='chat')
 
             #try another supporter if called supporter declines
             if answerMessage.startswith("SuicidePreventionAppServerSupporterRequestCallingDecline;"):    #;seeker;supporter
-                logging.info('SuicidePreventionAppServerSupporterRequestCallingDecline;' + str(msg['from']))
+                logging.info( datetime.now().strftime('%H_%M_%s_%d_%m_%Y') + 'SuicidePreventionAppServerSupporterRequestCallingDecline;' + str(msg['from']))
                 onlineUsers = ejabberd.getOnlineUsers()
                 onlineUsers.pop(onlineUsers.index( str(msg['from']).split("/")[0]))
                 supporter = database.getSupporter(onlineUsers)
@@ -131,7 +132,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
 
             if answerMessage.startswith("SuicidePreventionAppServerHelpSeekerEndSession"):
                 user = str(msg['from']).split('@')[0]
-                logging.info('SuicidePreventionAppServerHelpSeekerEndSession from ' + user)
+                logging.info( datetime.now().strftime('%H_%M_%s_%d_%m_%Y') + 'SuicidePreventionAppServerHelpSeekerEndSession from ' + user)
                 logging.info('delete user ' + user)
                 msg.reply("SuicidePreventionAppServerHelpSeekerEndSessionAck").send()
                 ejabberd.deleteUser(user)

@@ -1,17 +1,17 @@
 #! /bin/sh
-# Basic support for IRIX style chkconfig
-###
-# chkconfig: 235 98 55
-# description: Manages the services you are controlling with the chkconfig command
-###
+
 ### BEGIN INIT INFO
-# Provides:       suizid-app
-# Required-Start:
-# Required-Stop:
-# Default-Start:  3 4 5
-# Default-Stop:   0 1 2 6
-# Short-Description: VirtualBox Linux kernel module
+# Provides:          concierge.py
+# Required-Start:    $ejabberd
+# Required-Stop:     $ejabberd
+# Should-Start:      
+# Should-Stop:       
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start and stop xmpp bot for suicide prevention app
+# Description:       suicide prevention app
 ### END INIT INFO
+
 
 #PATH=/sbin:/bin:/usr/sbin:/usr/bin:$PATH
 LOG="/var/log/concierge.log"
@@ -48,9 +48,20 @@ case "$1" in
         #Or to run it as some other user:
         echo stopping... $(date) >>$LOG
 	ps aux | grep concierge | grep -v "grep concierge" | awk '{print $2}' | xargs kill -HUP
-        echo "."
         ;;
-
+  status)
+        ps aux | grep concierge | grep -v "grep concierge"
+        ;;
+  restart)
+        ps aux | grep concierge | grep -v "grep concierge" | awk '{print $2}' | xargs kill -HUP
+	sleep 10
+	/bin/su - $APPUSER -c "$APPDIR$APPCMD -j $JID -p $PASSWORD >>$LOG 2>>$ERRORLOG &"
+	;;
+  force-reload)
+	        ps aux | grep concierge | grep -v "grep concierge" | awk '{print $2}' | xargs kill -HUP
+        sleep 10
+        /bin/su - $APPUSER -c "$APPDIR$APPCMD -j $JID -p $PASSWORD >>$LOG 2>>$ERRORLOG &"
+        ;;
   *)
         echo "Usage: /sbin/service new-service {start|stop}"
         exit 1
