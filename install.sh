@@ -6,3 +6,9 @@ sudo pip install requests
 
 echo then you have to enable ejabberd module mod_register_web in the ejabberd.yml
 
+git submodule init
+git submodule update
+
+cp ./concierge.sh /etc/init.d/concierge.sh
+update-rc.d concierge.sh defaults
+
