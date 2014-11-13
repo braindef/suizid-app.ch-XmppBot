@@ -33,6 +33,7 @@ case "$1" in
         then
         	echo -n "Starting concierge-service"
 		cd $APPDIR
+		echo starting... $(date) >>$LOG
 		/bin/su - $APPUSER -c "$APPDIR$APPCMD -j $JID -p $PASSWORD >>$LOG 2>>$ERRORLOG &"
 	else
 		echo already running
@@ -45,7 +46,8 @@ case "$1" in
         #To run it as root:
         #/path/to/command/to/stop/new-service
         #Or to run it as some other user:
-        ps aux | grep concierge | grep -v "grep concierge" | awk '{print $2}' | xargs kill -HUP
+        echo stopping... $(date) >>$LOG
+	ps aux | grep concierge | grep -v "grep concierge" | awk '{print $2}' | xargs kill -HUP
         echo "."
         ;;
 

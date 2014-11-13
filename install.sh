@@ -11,4 +11,5 @@ git submodule update
 
 cp ./concierge.sh /etc/init.d/concierge.sh
 update-rc.d concierge.sh defaults
+update-rc.d concierge.sh enable
 
