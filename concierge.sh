@@ -15,24 +15,33 @@
 
 #PATH=/sbin:/bin:/usr/sbin:/usr/bin:$PATH
 LOG="/var/log/concierge.log"
+ERRORLOG="/var/log/concierge.error"
 VERSION=0.0.1
 #MODPROBE=/sbin/modprobe
 APPUSER=root
 APPCMD=/root/suizid-app.ch/suizid-app.ch-XmppBot/concierge.py
+JID="server@suizid-app.ch"
+PASSWORD="password"
+
+
+temp=$(ps -x |grep concierge.py |grep python |wc -l)
 
 case "$1" in
   start)
-        echo -n "Starting new-service"
-        #To run it as root:
-        #/path/to/command/to/start/new-service
-        #Or to run it as some other user:
-        /bin/su - $APPUSER -c $APPCMD >$LOG
-        echo "."
+        if [ "$temp" -eq "0" ]
+        then
+        	echo -n "Starting new-service"
+		/bin/su - $APPUSER -c "$APPCMD -j $JID -p $PASSWORD >>$LOG 2>>$ERRORLOG &"
+	else
+		echo already running
+		exit 1
+	fi
+        	echo -n "Starting new-service"
         ;;
   stop)
         echo -n "Stopping new-service"
         #To run it as root:
-        /path/to/command/to/stop/new-service
+        #/path/to/command/to/stop/new-service
         #Or to run it as some other user:
         /bin/su - username -c killall consierge.py
         echo "."
