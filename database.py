@@ -31,5 +31,5 @@ def getSupporter(onlineUsers):
 
 
 if __name__ == "__main__" :
-    supporterList = ['supporter1@ns3.ignored.ch', 'supporter0@ns3.ignored.ch', 'supporter2@ns3.ignored.ch', 'supporter4@ns3.ignored.ch', 'supporter5@ns3.ignored.ch']    
+    supporterList = ['supporter1@suizid-app.ch', 'supporter0@suizid-app.ch', 'supporter2@suizid-app.ch', 'supporter4@suizid-app.ch', 'supporter5@suizid-app.ch']    
     print getSupporter(supporterList)

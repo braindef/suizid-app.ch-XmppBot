@@ -13,3 +13,7 @@ cp ./concierge.sh /etc/init.d/concierge.sh
 update-rc.d concierge.sh defaults
 update-rc.d concierge.sh enable
 
+echo Remenber remember to first change the hostname, then install ejabberd because the erlang library registers the hostname
+
+
+
