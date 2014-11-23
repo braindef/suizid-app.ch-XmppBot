@@ -1,4 +1,4 @@
-sudo apt-get install python-pip python-mysqldb python-dnspython python-pyasn1
+sudo apt-get install mysql-server python-pip python-mysqldb python-dnspython python-pyasn1
 sudo apt-get install python-setuptools
 sudo python -m easy_install pip
 
