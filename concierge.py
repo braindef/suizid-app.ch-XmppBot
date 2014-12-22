@@ -133,10 +133,11 @@ class EchoBot(sleekxmpp.ClientXMPP):
             if answerMessage.startswith("SuicidePreventionAppServerHelpSeekerEndSession"):
                 user = str(msg['from']).split('@')[0]
                 logging.info( datetime.now().strftime('%Y/%m/%d %H:%M:%S ') + 'SuicidePreventionAppServerHelpSeekerEndSession from ' + user)
-                logging.info('delete user ' + user)
                 msg.reply("SuicidePreventionAppServerHelpSeekerEndSessionAck").send()
-                ejabberd.deleteUser(user)
-
+                #ugly but working for the moment
+                if user.startswith( '14' ):
+                  ejabberd.deleteUser(user)
+                  logging.info('delete user ' + user)
 
 
 if __name__ == '__main__':
