@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import MySQLdb
+import random
 
 def getSupporter(onlineUsers):
     """Parameter onlineUsers must be a list"""
@@ -18,10 +19,11 @@ def getSupporter(onlineUsers):
     cur.execute(query)
     rows = cur.fetchall()
     if len(rows) > 0:
-        supporter = rows[0][0]
+        supporter = rows[random.randint(0,len(rows)-1)][0]
     else:
         supporter = None
     #add 1 to the daily_call_count of the selected user
+    print supporter
     query = "UPDATE presence SET daily_call_count = daily_call_count + 1 WHERE jid = '%s';" % supporter
     cur.execute(query)
     db.commit()

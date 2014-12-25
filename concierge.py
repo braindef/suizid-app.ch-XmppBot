@@ -121,23 +121,25 @@ class EchoBot(sleekxmpp.ClientXMPP):
                 self.send_message(mto=answerList[1], mbody="SuicidePreventionAppServerSupporterRequestCallingAccept;"+str(msg['from']), mtype='chat')
 
             #try another supporter if called supporter declines
-            if answerMessage.startswith("SuicidePreventionAppServerSupporterRequestCallingDecline;"):    #;seeker;supporter
-                logging.info( datetime.now().strftime('%Y/%m/%d %H:%M:%S ') + 'SuicidePreventionAppServerSupporterRequestCallingDecline;' + str(msg['from']))
-                onlineUsers = ejabberd.getOnlineUsers()
-                onlineUsers.pop(onlineUsers.index( str(msg['from']).split("/")[0]))
+            if answerMessage.startswith("SuicidePreventionAppServerSupporterRequestCallingDecline;"):    #;seeker
+                logging.info( datetime.now().strftime('%Y/%m/%d %H:%M:%S ') + 'SuicidePreventionAppServerSupporterRequestCallingDecline from' + str(msg['from']) + msg['body'])
+		onlineUsers = ejabberd.getOnlineUsers()
+                logging.info( onlineUsers )
+		onlineUsers.pop(onlineUsers.index( str(msg['from']).split("/")[0]))
                 supporter = database.getSupporter(onlineUsers)
-                answerList=answerMessage.split(';')
+		logging.info( supporter )
+		answerList=answerMessage.split(';')
                 print answerList[1]
-                self.send_message(mto=supporter, mbody="SuicidePreventionAppServerSupporterRequestCalling;%s" % answerList[1])
+                self.send_message(mto=supporter, mbody="SuicidePreventionAppServerSupporterRequestCalling;%s" % answerList[1], mtype='chat')
 
             if answerMessage.startswith("SuicidePreventionAppServerHelpSeekerEndSession"):
                 user = str(msg['from']).split('@')[0]
                 logging.info( datetime.now().strftime('%Y/%m/%d %H:%M:%S ') + 'SuicidePreventionAppServerHelpSeekerEndSession from ' + user)
                 msg.reply("SuicidePreventionAppServerHelpSeekerEndSessionAck").send()
-                #ugly but working for the moment
                 if user.startswith( '14' ):
                   ejabberd.deleteUser(user)
                   logging.info('delete user ' + user)
+
 
 
 if __name__ == '__main__':
